@@ -83,38 +83,54 @@ def render_svg(engine, output_path="game.svg", max_frames=2000):
             "end": min(100.0, hit_pct + shatter_phase_pct)
         }
 
-    # Build score digit roller keyframes (hundreds, tens, ones)
+    # Build score digit roller keyframes (hundreds, tens, ones) - collapsed spans
     line_h = 12
-    kf_d100, kf_d10, kf_d1 = [], [], []
-    for f_i, h in enumerate(history):
-        pct = round((f_i / (total_frames - 1)) * 100, 2)
-        sc = h.get("score", engine.total_bricks - len(h["destroyed"]))
-        d100 = (sc // 100) % 10
-        d10 = (sc // 10) % 10
-        d1 = sc % 10
-        kf_d100.append(f"{pct}% {{ transform: translateY(-{d100 * line_h}px); }}")
-        kf_d10.append(f"{pct}% {{ transform: translateY(-{d10 * line_h}px); }}")
-        kf_d1.append(f"{pct}% {{ transform: translateY(-{d1 * line_h}px); }}")
+    def build_digit_keyframes(name, digit_extractor):
+        kf = []
+        cur_val, start_pct, prev_pct = None, None, None
+        for f_i, h in enumerate(history):
+            pct = round((f_i / (total_frames - 1)) * 100, 2)
+            sc = h.get("score", engine.total_bricks - len(h["destroyed"]))
+            val = digit_extractor(sc)
+            if val != cur_val:
+                if cur_val is not None:
+                    span = f"{start_pct}%" if start_pct == prev_pct else f"{start_pct}%, {prev_pct}%"
+                    kf.append(f"{span} {{ transform: translateY(-{cur_val * line_h}px); }}")
+                cur_val, start_pct = val, pct
+            prev_pct = pct
+        if cur_val is not None:
+            span = f"{start_pct}%" if start_pct == prev_pct else f"{start_pct}%, {prev_pct}%"
+            kf.append(f"{span} {{ transform: translateY(-{cur_val * line_h}px); }}")
+        return f"@keyframes {name} {{\n      " + "\n      ".join(kf) + "\n    }"
 
     score_kfs = [
-        f"@keyframes score-d100 {{\n      " + "\n      ".join(kf_d100) + "\n    }",
-        f"@keyframes score-d10 {{\n      " + "\n      ".join(kf_d10) + "\n    }",
-        f"@keyframes score-d1 {{\n      " + "\n      ".join(kf_d1) + "\n    }"
+        build_digit_keyframes("score-d100", lambda sc: (sc // 100) % 10),
+        build_digit_keyframes("score-d10", lambda sc: (sc // 10) % 10),
+        build_digit_keyframes("score-d1", lambda sc: sc % 10)
     ]
 
-    # Build dynamic heart life keyframes
-    kf_h1, kf_h2, kf_h3 = [], [], []
-    for f_i, h in enumerate(history):
-        pct = round((f_i / (total_frames - 1)) * 100, 2)
-        lv = h.get("lives", 3)
-        kf_h1.append(f"{pct}% {{ opacity: {1 if lv >= 1 else 0}; }}")
-        kf_h2.append(f"{pct}% {{ opacity: {1 if lv >= 2 else 0}; }}")
-        kf_h3.append(f"{pct}% {{ opacity: {1 if lv >= 3 else 0}; }}")
+    # Build dynamic heart life keyframes - collapsed spans
+    def build_heart_keyframe(name, threshold):
+        kf = []
+        cur_vis, start_pct, prev_pct = None, None, None
+        for f_i, h in enumerate(history):
+            pct = round((f_i / (total_frames - 1)) * 100, 2)
+            vis = 1 if h.get("lives", 3) >= threshold else 0
+            if vis != cur_vis:
+                if cur_vis is not None:
+                    span = f"{start_pct}%" if start_pct == prev_pct else f"{start_pct}%, {prev_pct}%"
+                    kf.append(f"{span} {{ opacity: {cur_vis}; }}")
+                cur_vis, start_pct = vis, pct
+            prev_pct = pct
+        if cur_vis is not None:
+            span = f"{start_pct}%" if start_pct == prev_pct else f"{start_pct}%, {prev_pct}%"
+            kf.append(f"{span} {{ opacity: {cur_vis}; }}")
+        return f"@keyframes {name} {{\n      " + "\n      ".join(kf) + "\n    }"
 
     heart_kfs = [
-        f"@keyframes heart-life-1 {{\n      " + "\n      ".join(kf_h1) + "\n    }",
-        f"@keyframes heart-life-2 {{\n      " + "\n      ".join(kf_h2) + "\n    }",
-        f"@keyframes heart-life-3 {{\n      " + "\n      ".join(kf_h3) + "\n    }"
+        build_heart_keyframe("heart-life-1", 1),
+        build_heart_keyframe("heart-life-2", 2),
+        build_heart_keyframe("heart-life-3", 3)
     ]
 
     trail_count = 2 if engine.skin.get("trail_color") else 0
