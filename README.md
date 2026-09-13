@@ -1,6 +1,9 @@
 # Generate Brick Breaker
 
 <p align="center">
+  <a href="https://brickbreaker-live.netlify.app" target="_blank">
+    <img src="https://img.shields.io/badge/Live_Demo-brickbreaker--live.netlify.app-ff5964.svg?style=flat-square&logo=netlify" alt="Live Demo" />
+  </a>
   <a href="https://github.com/marketplace/actions/generate-brick-breaker">
     <img src="https://img.shields.io/badge/Marketplace-v1.3.2-blue.svg?logo=github&style=flat-square" alt="Marketplace" />
   </a>
@@ -55,6 +58,13 @@ Turn your GitHub contribution graph into an automated retro Brick Breaker game a
 | `sky-night` | <img src="assets/preview/sample_theme_sky_night.svg" width="340" alt="sky night theme" /> |
 | `synthwave` | <img src="assets/preview/sample_theme_synthwave.svg" width="340" alt="synthwave theme" /> |
 | `matrix` | <img src="assets/preview/sample_theme_matrix.svg" width="340" alt="matrix theme" /> |
+
+---
+
+### Live Web Studio
+
+Customize skins, test themes, and download your generated game SVG/GIF online without any installation:  
+[https://brickbreaker-live.netlify.app](https://brickbreaker-live.netlify.app)
 
 ---
 
@@ -185,6 +195,13 @@ docker run --rm -v $(pwd):/output generate-brick-breaker YourGithubUsername /out
 | `sky-night` | <img src="assets/preview/sample_theme_sky_night.svg" width="340" alt="sky night theme" /> |
 | `synthwave` | <img src="assets/preview/sample_theme_synthwave.svg" width="340" alt="synthwave theme" /> |
 | `matrix` | <img src="assets/preview/sample_theme_matrix.svg" width="340" alt="matrix theme" /> |
+
+---
+
+### Studio Web Interaktif (Live Demo Online)
+
+Kustomisasi skin, uji tema, dan unduh aset game SVG/GIF langsung di browser tanpa perlu instalasi apa pun:  
+[https://brickbreaker-live.netlify.app](https://brickbreaker-live.netlify.app)
 
 ---
 
