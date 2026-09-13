@@ -160,6 +160,31 @@ def generate_ambient_svg(theme, engine):
                 stream_nodes.append(f'    <rect x="{x}" y="{py}" width="2" height="4" fill="{col_hex}" opacity="{alpha}" />')
             stream_nodes.append('  </g>')
             elements.append("\n".join(stream_nodes))
+    elif effect == "sakura_drift":
+        # 16 drifting cherry blossom petals across spring night
+        petals = [
+            {"x": 40, "y": -15, "dur": 8.5, "delay": 0.0, "sc": 1.1},
+            {"x": 120, "y": -15, "dur": 10.0, "delay": -3.2, "sc": 0.9},
+            {"x": 210, "y": -15, "dur": 9.0, "delay": -6.5, "sc": 1.2},
+            {"x": 310, "y": -15, "dur": 11.2, "delay": -1.8, "sc": 0.85},
+            {"x": 400, "y": -15, "dur": 9.6, "delay": -4.7, "sc": 1.05},
+            {"x": 490, "y": -15, "dur": 8.8, "delay": -8.1, "sc": 1.15},
+            {"x": 580, "y": -15, "dur": 10.5, "delay": -5.5, "sc": 0.95},
+            {"x": 80, "y": -15, "dur": 9.2, "delay": -7.0, "sc": 1.0},
+            {"x": 260, "y": -15, "dur": 11.5, "delay": -9.0, "sc": 0.8},
+            {"x": 440, "y": -15, "dur": 8.6, "delay": -2.5, "sc": 1.1},
+            {"x": 540, "y": -15, "dur": 10.2, "delay": -7.8, "sc": 0.9}
+        ]
+        for p in petals:
+            x, y = p["x"], p["y"]
+            sc = p["sc"]
+            dur = p["dur"]
+            delay = p["delay"]
+            elements.append(
+                f'  <g style="animation: sakura-flutter {dur:.1f}s linear infinite {delay:.1f}s;">'
+                f'<path d="M {x},{y} C {x+6*sc:.1f},{y-4*sc:.1f} {x+10*sc:.1f},{y+2*sc:.1f} {x+6*sc:.1f},{y+8*sc:.1f} C {x+2*sc:.1f},{y+4*sc:.1f} {x-2*sc:.1f},{y+2*sc:.1f} {x},{y} Z" fill="#ffb7c5" opacity="0.85" />'
+                f'</g>'
+            )
     return elements
 
 def generate_paddle_svg(pskin, engine, paddle_hex):

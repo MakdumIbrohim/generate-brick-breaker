@@ -98,3 +98,8 @@ def draw_ambient_background(draw, engine, theme):
                 if 0 <= py <= engine.canvas_h:
                     g = int(40 + ((clen - i) / clen) * 160)
                     draw.rectangle([cx, py, cx + 1, py + 3], fill=(0, g, int(g * 0.4)))
+    elif effect == "sakura_drift":
+        for p in getattr(engine, "ambient_items", []):
+            px, py = int(p["x"]), int(p["y"])
+            w, h = int(p["w"]), int(p["h"])
+            draw.ellipse([px - w // 2, py - h // 2, px + w // 2, py + h // 2], fill=(255, 183, 197), outline=(255, 240, 245))

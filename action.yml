@@ -22,7 +22,7 @@ inputs:
     required: false
     default: 'classic'
   theme:
-    description: 'Canvas board visual theme (classic, sky, sky-night, synthwave, matrix)'
+    description: 'Canvas board visual theme (classic, sky, sky-night, synthwave, matrix, sakura)'
     required: false
     default: 'classic'
   paddle_skin:

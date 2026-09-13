@@ -3,6 +3,7 @@ from .sky import THEME as SKY_THEME, init_ambient as sky_init, update_ambient as
 from .sky_night import THEME as SKY_NIGHT_THEME, init_ambient as sky_night_init, update_ambient as sky_night_update
 from .synthwave import THEME as SYNTHWAVE_THEME, init_ambient as synth_init, update_ambient as synth_update
 from .matrix import THEME as MATRIX_THEME, init_ambient as matrix_init, update_ambient as matrix_update
+from .sakura import THEME as SAKURA_THEME, init_ambient as sakura_init, update_ambient as sakura_update
 
 THEMES = {
     "classic": CLASSIC_THEME,
@@ -10,6 +11,7 @@ THEMES = {
     "sky-night": SKY_NIGHT_THEME,
     "synthwave": SYNTHWAVE_THEME,
     "matrix": MATRIX_THEME,
+    "sakura": SAKURA_THEME,
 }
 
 THEME_INITIALIZERS = {
@@ -18,6 +20,7 @@ THEME_INITIALIZERS = {
     "sky-night": sky_night_init,
     "synthwave": synth_init,
     "matrix": matrix_init,
+    "sakura": sakura_init,
 }
 
 THEME_UPDATERS = {
@@ -26,4 +29,5 @@ THEME_UPDATERS = {
     "sky-night": sky_night_update,
     "synthwave": synth_update,
     "matrix": matrix_update,
+    "sakura": sakura_update,
 }
