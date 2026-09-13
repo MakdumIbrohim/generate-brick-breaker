@@ -79,7 +79,8 @@ def draw_paddle(draw, engine, theme):
 
 def render_frame(engine):
     theme = engine.theme
-    img = Image.new("RGB", (engine.canvas_w, engine.canvas_h), theme["bg_color"])
+    bg_color = theme.get("bg_color") or (13, 17, 23)
+    img = Image.new("RGB", (engine.canvas_w, engine.canvas_h), bg_color)
     draw = ImageDraw.Draw(img)
 
     # 1. Environmental background

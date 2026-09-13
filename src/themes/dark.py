@@ -4,7 +4,7 @@ import random
 THEME = {
     "name": "dark",
     "bg_effect": "starfield",
-    "bg_color": (13, 17, 23),
+    "bg_color": None,                 # Transparent background (adapts natively to GitHub Dark/Light)
     "paddle_color": (88, 166, 255),
     "empty_brick": (22, 27, 34),
     "heart_color": (255, 107, 107),

@@ -129,7 +129,8 @@ def render_svg(engine, output_path="game.svg", max_frames=2000):
         node_inner = generate_particle_svg_node(dom_type, dom_size)
         particle_nodes.append(f'  <g class="p-node-{p_i}">{node_inner}</g>')
 
-    bg_hex = rgb_to_hex(theme["bg_color"])
+    bg_color = theme.get("bg_color")
+    bg_hex = rgb_to_hex(bg_color) if bg_color else "transparent"
     paddle_hex = rgb_to_hex(theme["paddle_color"])
     ball_hex = rgb_to_hex(engine.skin["color"])
     trail_hex = rgb_to_hex(engine.skin["trail_color"]) if engine.skin.get("trail_color") else ball_hex
@@ -140,9 +141,13 @@ def render_svg(engine, output_path="game.svg", max_frames=2000):
     svg = [
         f'<svg viewBox="0 0 {engine.canvas_w} {engine.canvas_h}" width="{engine.canvas_w}" height="{engine.canvas_h}" xmlns="http://www.w3.org/2000/svg">',
         '  <style>',
+        f'    :root {{ --empty-cell: {empty_hex}; --score-color: {score_hex}; }}',
+        '    @media (prefers-color-scheme: light) {' if not bg_color else '',
+        '      :root { --empty-cell: #ebedf0; --score-color: #57606a; }' if not bg_color else '',
+        '    }' if not bg_color else '',
         f'    .bg {{ fill: {bg_hex}; }}',
-        f'    .empty-cell {{ fill: {empty_hex}; }}',
-        f'    .score-txt {{ fill: {score_hex}; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 10px; font-weight: bold; }}',
+        f'    .empty-cell {{ fill: var(--empty-cell); }}',
+        f'    .score-txt {{ fill: var(--score-color); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 10px; font-weight: bold; }}',
         f'    .heart {{ fill: {heart_hex}; }}',
         f'    .ball-node {{ fill: {ball_hex}; }}',
         f'    .ball-container {{ animation: ball-motion {duration_sec}s linear infinite; }}',

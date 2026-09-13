@@ -52,6 +52,7 @@ Turn your GitHub contribution graph into an automated retro Brick Breaker game a
 | :---: | :---: |
 | `dark` (default) | <img src="assets/preview/sample_theme_dark.svg" width="340" alt="dark theme" /> |
 | `sky` | <img src="assets/preview/sample_theme_sky.svg" width="340" alt="sky theme" /> |
+| `sky-night` | <img src="assets/preview/sample_theme_sky_night.svg" width="340" alt="sky night theme" /> |
 | `synthwave` | <img src="assets/preview/sample_theme_synthwave.svg" width="340" alt="synthwave theme" /> |
 | `matrix` | <img src="assets/preview/sample_theme_matrix.svg" width="340" alt="matrix theme" /> |
 
@@ -181,6 +182,7 @@ docker run --rm -v $(pwd):/output generate-brick-breaker MakdumIbrohim /output/g
 | :---: | :---: |
 | `dark` (default) | <img src="assets/preview/sample_theme_dark.svg" width="340" alt="dark theme" /> |
 | `sky` | <img src="assets/preview/sample_theme_sky.svg" width="340" alt="sky theme" /> |
+| `sky-night` | <img src="assets/preview/sample_theme_sky_night.svg" width="340" alt="sky night theme" /> |
 | `synthwave` | <img src="assets/preview/sample_theme_synthwave.svg" width="340" alt="synthwave theme" /> |
 | `matrix` | <img src="assets/preview/sample_theme_matrix.svg" width="340" alt="matrix theme" /> |
 

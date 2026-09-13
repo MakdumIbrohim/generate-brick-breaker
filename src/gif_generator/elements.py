@@ -38,17 +38,50 @@ def draw_ambient_background(draw, engine, theme):
         cloud_fill = (255, 255, 255)
         cloud_outline = (0, 0, 0)
         for c in getattr(engine, "ambient_items", []):
-            cx, cy = c["x"], c["y"]
-            sc = c.get("scale", 1.0)
-            bw, bh = 54 * sc, 18 * sc
-            draw.rounded_rectangle([cx, cy + 8 * sc, cx + bw, cy + 8 * sc + bh], radius=int(bh / 2), fill=cloud_fill, outline=cloud_outline, width=1)
-            d1_r = 11 * sc
-            draw.ellipse([cx + 6 * sc, cy + 2 * sc, cx + 6 * sc + d1_r * 2, cy + 2 * sc + d1_r * 2], fill=cloud_fill, outline=cloud_outline, width=1)
-            d2_r = 14 * sc
-            draw.ellipse([cx + 20 * sc, cy - 4 * sc, cx + 20 * sc + d2_r * 2, cy - 4 * sc + d2_r * 2], fill=cloud_fill, outline=cloud_outline, width=1)
-            d3_r = 10 * sc
-            draw.ellipse([cx + 36 * sc, cy + 4 * sc, cx + 36 * sc + d3_r * 2, cy + 4 * sc + d3_r * 2], fill=cloud_fill, outline=cloud_outline, width=1)
-            draw.rectangle([cx + 8 * sc, cy + 8 * sc, cx + bw - 8 * sc, cy + 18 * sc], fill=cloud_fill)
+            if c.get("type") == "cloud":
+                cx, cy = c["x"], c["y"]
+                sc = c.get("scale", 1.0)
+                bw, bh = 54 * sc, 18 * sc
+                draw.rounded_rectangle([cx, cy + 8 * sc, cx + bw, cy + 8 * sc + bh], radius=int(bh / 2), fill=cloud_fill, outline=cloud_outline, width=1)
+                d1_r = 11 * sc
+                draw.ellipse([cx + 6 * sc, cy + 2 * sc, cx + 6 * sc + d1_r * 2, cy + 2 * sc + d1_r * 2], fill=cloud_fill, outline=cloud_outline, width=1)
+                d2_r = 14 * sc
+                draw.ellipse([cx + 20 * sc, cy - 4 * sc, cx + 20 * sc + d2_r * 2, cy - 4 * sc + d2_r * 2], fill=cloud_fill, outline=cloud_outline, width=1)
+                d3_r = 10 * sc
+                draw.ellipse([cx + 36 * sc, cy + 4 * sc, cx + 36 * sc + d3_r * 2, cy + 4 * sc + d3_r * 2], fill=cloud_fill, outline=cloud_outline, width=1)
+                draw.rectangle([cx + 8 * sc, cy + 8 * sc, cx + bw - 8 * sc, cy + 18 * sc], fill=cloud_fill)
+            elif c.get("type") == "bird":
+                bx, by = c["x"], c["y"]
+                draw.arc([bx, by - 5, bx + 10, by + 5], 180, 360, fill=(36, 41, 47), width=2)
+                draw.arc([bx + 10, by - 5, bx + 20, by + 5], 180, 360, fill=(36, 41, 47), width=2)
+    elif effect == "mario_sky_night":
+        # Crescent Moon
+        draw.ellipse([45, 25, 75, 55], fill=(255, 244, 189))
+        draw.ellipse([53, 22, 83, 52], fill=(13, 27, 62))
+        # Night stars & dim night clouds
+        for it in getattr(engine, "ambient_items", []):
+            if it.get("type") == "star":
+                b = int(120 + it.get("brightness", 0.5) * 135)
+                sz = it.get("size", 1)
+                draw.rectangle([it["x"], it["y"], it["x"] + sz, it["y"] + sz], fill=(b - 30, b - 10, b))
+            elif it.get("type") == "cloud":
+                cx, cy = it["x"], it["y"]
+                sc = it.get("scale", 1.0)
+                bw, bh = 54 * sc, 18 * sc
+                night_col = (45, 68, 120)
+                draw.rounded_rectangle([cx, cy + 8 * sc, cx + bw, cy + 8 * sc + bh], radius=int(bh / 2), fill=night_col)
+                draw.ellipse([cx + 6 * sc, cy + 2 * sc, cx + 6 * sc + 22 * sc, cy + 2 * sc + 22 * sc], fill=night_col)
+                draw.ellipse([cx + 20 * sc, cy - 4 * sc, cx + 20 * sc + 28 * sc, cy - 4 * sc + 28 * sc], fill=night_col)
+                draw.ellipse([cx + 36 * sc, cy + 4 * sc, cx + 36 * sc + 20 * sc, cy + 4 * sc + 20 * sc], fill=night_col)
+            elif it.get("type") == "ghost":
+                gx, gy = it["x"], it["y"]
+                # White retro Boo ghost
+                draw.ellipse([gx - 8, gy - 8, gx + 8, gy + 8], fill=(245, 248, 255))
+                # Eyes
+                draw.rectangle([gx - 5, gy - 3, gx - 2, gy + 1], fill=(13, 27, 62))
+                draw.rectangle([gx + 2, gy - 3, gx + 5, gy + 1], fill=(13, 27, 62))
+                # Mouth
+                draw.arc([gx - 4, gy, gx + 4, gy + 6], 0, 180, fill=(13, 27, 62), width=1)
     elif effect == "neon_grid":
         horizon_y = int(engine.canvas_h * 0.65)
         draw.line([(0, horizon_y), (engine.canvas_w, horizon_y)], fill=(80, 20, 110), width=1)
