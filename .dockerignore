@@ -1,0 +1,13 @@
+.git
+.github
+assets
+__pycache__
+*.pyc
+*.gif
+*.svg
+*.md
+LICENSE
+Dockerfile
+docker-compose.yml
+.gitignore
+.dockerignore
