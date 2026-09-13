@@ -5,7 +5,7 @@
     <img src="https://img.shields.io/badge/Live_Demo-brickbreaker--live.netlify.app-ff5964.svg?style=flat-square&logo=netlify" alt="Live Demo" />
   </a>
   <a href="https://github.com/marketplace/actions/generate-brick-breaker">
-    <img src="https://img.shields.io/badge/Marketplace-v1.3.2-blue.svg?logo=github&style=flat-square" alt="Marketplace" />
+    <img src="https://img.shields.io/badge/Marketplace-v1.4.0-blue.svg?logo=github&style=flat-square" alt="Marketplace" />
   </a>
   <a href="https://github.com/MakdumIbrohim/generate-brick-breaker/actions">
     <img src="https://img.shields.io/github/actions/workflow/status/MakdumIbrohim/generate-brick-breaker/generate.yml?branch=main&style=flat-square&label=build" alt="Build Status" />
@@ -58,6 +58,7 @@ Turn your GitHub contribution graph into an automated retro Brick Breaker game a
 | `sky-night` | <img src="assets/preview/sample_theme_sky_night.svg" width="340" alt="sky night theme" /> |
 | `synthwave` | <img src="assets/preview/sample_theme_synthwave.svg" width="340" alt="synthwave theme" /> |
 | `matrix` | <img src="assets/preview/sample_theme_matrix.svg" width="340" alt="matrix theme" /> |
+| `sakura` | <img src="assets/preview/sample_theme_sakura.svg" width="340" alt="sakura theme" /> |
 
 ---
 
@@ -105,7 +106,7 @@ jobs:
           # Options: classic | fire | ice | lightning | poison
           ball_skin: classic
 
-          # Options: classic | sky | sky-night | synthwave | matrix
+          # Options: classic | sky | sky-night | synthwave | matrix | sakura
           theme: classic
 
           # Options: classic | laser | retro | mecha | cyber
@@ -117,7 +118,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
           git diff --staged --quiet || git commit -m "chore: update brick breaker assets"
-          git pull --rebase origin main || true
+          git pull --rebase --autostash origin main || true
           git push origin main
 ```
 
@@ -195,6 +196,7 @@ docker run --rm -v $(pwd):/output generate-brick-breaker YourGithubUsername /out
 | `sky-night` | <img src="assets/preview/sample_theme_sky_night.svg" width="340" alt="sky night theme" /> |
 | `synthwave` | <img src="assets/preview/sample_theme_synthwave.svg" width="340" alt="synthwave theme" /> |
 | `matrix` | <img src="assets/preview/sample_theme_matrix.svg" width="340" alt="matrix theme" /> |
+| `sakura` | <img src="assets/preview/sample_theme_sakura.svg" width="340" alt="sakura theme" /> |
 
 ---
 
@@ -242,7 +244,7 @@ jobs:
           # Opsi: classic | fire | ice | lightning | poison
           ball_skin: classic
 
-          # Opsi: classic | sky | sky-night | synthwave | matrix
+          # Opsi: classic | sky | sky-night | synthwave | matrix | sakura
           theme: classic
 
           # Opsi: classic | laser | retro | mecha | cyber
@@ -254,7 +256,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
           git diff --staged --quiet || git commit -m "chore: update brick breaker assets"
-          git pull --rebase origin main || true
+          git pull --rebase --autostash origin main || true
           git push origin main
 ```
 

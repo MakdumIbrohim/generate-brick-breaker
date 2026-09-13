@@ -19,4 +19,5 @@ THEMES_EFFECT_MAP = {
     "sky-night": "mario_sky_night",
     "synthwave": "neon_grid",
     "matrix": "matrix_rain",
+    "sakura": "sakura_drift",
 }

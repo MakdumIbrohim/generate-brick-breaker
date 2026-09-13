@@ -166,6 +166,7 @@ def render_svg(engine, output_path="game.svg", max_frames=2000):
         '    @keyframes neon-fade { 0%, 100% { opacity: 0.28; } 50% { opacity: 0.92; } }',
         '    @keyframes pulse-glow { 0% { opacity: 0.35; transform: scale(0.9); } 100% { opacity: 0.85; transform: scale(1.15); } }',
         '    @keyframes matrix-stream { 0% { transform: translateY(0); } 100% { transform: translateY(340px); } }',
+        '    @keyframes sakura-flutter { 0% { transform: translate(0,-20px) rotate(0deg); opacity: 0; } 10% { opacity: 0.9; } 50% { transform: translate(28px,150px) rotate(180deg); } 90% { opacity: 0.9; } 100% { transform: translate(-12px,320px) rotate(360deg); opacity: 0; } }',
         f'    @keyframes ball-motion {{\n      ' + '\n      '.join(ball_kf) + '\n    }',
         f'    @keyframes paddle-motion {{\n      ' + '\n      '.join(paddle_kf) + '\n    }'
     ]
