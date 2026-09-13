@@ -68,7 +68,8 @@ name: Generate Brick Breaker
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    # Runs automatically every hour to sync new commits
+    - cron: "0 * * * *"
   push:
     branches:
       - main
@@ -196,7 +197,8 @@ name: Generate Brick Breaker
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    # Berjalan otomatis setiap jam untuk menyinkronkan commit baru
+    - cron: "0 * * * *"
   push:
     branches:
       - main
