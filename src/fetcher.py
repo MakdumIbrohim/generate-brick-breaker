@@ -35,19 +35,7 @@ def fetch_contributions(username, token=None):
     now = datetime.now(timezone.utc)
     from_date = f"{now.year}-01-01"
 
-    # 1. Fetch real public contribution data (works seamlessly locally without token)
-    try:
-        url = f"https://github-contributions-api.jogruber.de/v4/{username}?y=last"
-        req = urllib.request.Request(url, headers={"User-Agent": "generate-brick-breaker"})
-        with urllib.request.urlopen(req, timeout=8) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            contribs = [c for c in data["contributions"] if c["date"] >= from_date]
-            if contribs:
-                return parse_contributions_to_grid(contribs)
-    except Exception:
-        pass
-
-    # 2. Fetch via GitHub GraphQL API if token is provided
+    # 1. Fetch via official GitHub GraphQL API first if token provided (real-time, no delay)
     if token:
         query = """
         query($username: String!, $from: DateTime!, $to: DateTime!) {
@@ -88,6 +76,18 @@ def fetch_contributions(username, token=None):
                     return parse_contributions_to_grid(filtered_days)
         except Exception:
             pass
+
+    # 2. Fallback to public contribution API (no token needed, for local runs)
+    try:
+        url = f"https://github-contributions-api.jogruber.de/v4/{username}?y=last"
+        req = urllib.request.Request(url, headers={"User-Agent": "generate-brick-breaker"})
+        with urllib.request.urlopen(req, timeout=8) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            contribs = [c for c in data["contributions"] if c["date"] >= from_date]
+            if contribs:
+                return parse_contributions_to_grid(contribs)
+    except Exception:
+        pass
 
     # 3. Fallback pseudo-random grid only if offline / network failure
     current_week = now.isocalendar()[1]
