@@ -65,7 +65,10 @@ Turn your GitHub contribution graph into an automated retro Brick Breaker game a
 ### Live Web Studio
 
 Customize skins, test themes, and download your generated game SVG/GIF online without any installation:  
-[https://brickbreaker-live.netlify.app](https://brickbreaker-live.netlify.app)
+
+<video src="assets/preview/live-preview.mp4" width="100%" controls autoplay loop muted></video>
+
+#### [https://brickbreaker-live.netlify.app](https://brickbreaker-live.netlify.app)
 
 ---
 
