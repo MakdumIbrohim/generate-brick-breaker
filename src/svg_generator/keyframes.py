@@ -7,22 +7,6 @@ def build_svg_keyframes(history, total_frames):
         paddle_kf.append(f"{pct}% {{ transform: translate({h['px']}px, {h['py']}px); }}")
     return ball_kf, paddle_kf
 
-def calculate_brick_lifetimes(initial_bricks, history, total_frames):
-    disappear_map = {}
-    shatter_phase_pct = round((4 / max(1, total_frames)) * 100, 2)
-    for (r, c) in initial_bricks:
-        pct = None
-        for i, h in enumerate(history):
-            if (r, c) not in h["destroyed"]:
-                pct = round((i / (total_frames - 1)) * 100, 2)
-                break
-        hit_time = pct if pct is not None else 100.0
-        disappear_map[(r, c)] = {
-            "hit": hit_time,
-            "end": min(100.0, hit_time + shatter_phase_pct)
-        }
-    return disappear_map
-
 def build_trail_keyframes(history, total_frames, trail_count):
     trail_kfs = []
     for t_i in range(trail_count):

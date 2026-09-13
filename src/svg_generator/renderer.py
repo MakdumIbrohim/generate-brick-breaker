@@ -1,6 +1,5 @@
 from .keyframes import (
     build_svg_keyframes,
-    calculate_brick_lifetimes,
     build_trail_keyframes,
     build_particle_keyframes,
 )
