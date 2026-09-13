@@ -127,16 +127,18 @@ jobs:
 git clone https://github.com/MakdumIbrohim/generate-brick-breaker.git
 cd generate-brick-breaker
 pip install pillow
-python generate.py <username> [output.svg | output.gif] [skin] [theme] [paddle_skin]
+
+# Show help and available options
+python generate.py --help
 ```
 
 Examples:
 ```bash
-# Output SVG (recommended: lightweight vector animation)
-python generate.py MakdumIbrohim game.svg
+# Flexible flag-based syntax
+python generate.py MakdumIbrohim --skin fire --theme sky --paddle mecha
 
-# Output GIF
-python generate.py MakdumIbrohim game.gif fire dark laser
+# Or classic positional syntax
+python generate.py MakdumIbrohim game.svg fire dark laser
 ```
 
 **Using Docker (Without installing Python):**
@@ -248,18 +250,21 @@ jobs:
 
 #### 2. Penggunaan di Lokal
 
+**Menggunakan Python:**
 ```bash
 git clone https://github.com/MakdumIbrohim/generate-brick-breaker.git
 cd generate-brick-breaker
 pip install pillow
-python generate.py <username_github> [output.svg | output.gif] [skin] [theme] [paddle_skin]
+
+# Tampilkan menu bantuan dan opsi yang tersedia
+python generate.py --help
 ```
 
 Contoh pemakaian:
 ```bash
-# Output SVG (ringan & tajam di layar resolusi tinggi)
-python generate.py MakdumIbrohim game.svg
+# Menggunakan flags modern yang fleksibel
+python generate.py MakdumIbrohim --skin fire --theme sky --paddle mecha
 
-# Output GIF
-python generate.py MakdumIbrohim game.gif fire dark laser
+# Atau sintaks posisi klasik
+python generate.py MakdumIbrohim game.svg fire dark laser
 ```
