@@ -8,7 +8,7 @@ from src.config import (
 )
 from src.ambient import init_ambient_effects, update_ambient_effects
 from src.particles import (
-    create_ball_particles, create_paddle_particles, create_paddle_impact_particles, update_particles
+    create_ball_particles, create_paddle_impact_particles, update_particles
 )
 
 class BrickBreakerEngine:

@@ -16,12 +16,13 @@ pip install pillow
 ```
 
 ### 2. Architecture & Guidelines
-- **Adding Ball / Paddle Skins:** Register parameters in `src/config.py`, emit particles in `src/particles.py`, and implement rendering in `src/gif_generator/` and `src/svg_generator/`.
-- **Adding Board Themes:** Define palettes and triggers in `src/config.py`, and implement environmental drawing logic in `src/ambient.py`.
+- **Adding Ball Skins:** Add a new module in `src/skins/ball/<name>.py` containing `SKIN`, `spawn_particles()`, and `update_particle()`, then register it in `src/skins/ball/__init__.py`.
+- **Adding Paddle Skins:** Add a new module in `src/skins/paddle/<name>.py` containing `SKIN` and `spawn_impact()`, register it in `src/skins/paddle/__init__.py`, and implement custom geometry in `src/gif_generator/` and `src/svg_generator/`.
+- **Adding Board Themes:** Add a new module in `src/themes/<name>.py` containing `THEME`, `init_ambient()`, and `update_ambient()`, then register it in `src/themes/__init__.py`.
 - **Lightweight Dependencies:** Keep the project minimal. `Pillow` is the only allowed external dependency. Do not introduce heavy libraries.
-- **Local Testing:** Always test the generated GIF locally across different accounts, themes, and skins before opening a PR:
+- **Local Testing:** Always test the generated SVG/GIF locally across different accounts, themes, and skins before opening a PR:
   ```bash
-  python generate.py <username> test.gif [skin] [theme] [paddle_skin]
+  python generate.py <username> test.svg [skin] [theme] [paddle_skin]
   ```
 
 ### 3. Commit Messages
