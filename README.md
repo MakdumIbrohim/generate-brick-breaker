@@ -41,7 +41,7 @@ Turn your GitHub contribution graph into an automated retro Brick Breaker game a
 #### Paddle Skin Options (`paddle_skin`)
 | Option | Preview |
 | :---: | :---: |
-| `default` | Primary theme color |
+| `classic` (default) | Primary theme color |
 | `laser` | <img src="assets/preview/sample_paddle_laser.svg" width="340" alt="paddle laser" /> |
 | `retro` | <img src="assets/preview/sample_paddle_retro.svg" width="340" alt="paddle retro" /> |
 | `mecha` | <img src="assets/preview/sample_paddle_mecha.svg" width="340" alt="paddle mecha" /> |
@@ -50,7 +50,7 @@ Turn your GitHub contribution graph into an automated retro Brick Breaker game a
 #### Board Theme Options (`theme`)
 | Option | Preview |
 | :---: | :---: |
-| `dark` (default) | <img src="assets/preview/sample_theme_dark.svg" width="340" alt="dark theme" /> |
+| `classic` (default) | <img src="assets/preview/sample_theme_classic.svg" width="340" alt="classic theme" /> |
 | `sky` | <img src="assets/preview/sample_theme_sky.svg" width="340" alt="sky theme" /> |
 | `sky-night` | <img src="assets/preview/sample_theme_sky_night.svg" width="340" alt="sky night theme" /> |
 | `synthwave` | <img src="assets/preview/sample_theme_synthwave.svg" width="340" alt="synthwave theme" /> |
@@ -95,11 +95,11 @@ jobs:
           # Options: classic | fire | ice | lightning | poison
           ball_skin: classic
 
-          # Options: dark | sky | synthwave | matrix
-          theme: dark
+          # Options: classic | sky | sky-night | synthwave | matrix
+          theme: classic
 
-          # Options: default | laser | retro | mecha | cyber
-          paddle_skin: default
+          # Options: classic | laser | retro | mecha | cyber
+          paddle_skin: classic
 
       - name: Commit and Push
         run: |
@@ -137,10 +137,10 @@ python generate.py --help
 Examples:
 ```bash
 # Flexible flag-based syntax
-python generate.py MakdumIbrohim --skin fire --theme sky --paddle mecha
+python generate.py YourGithubUsername --skin fire --theme sky --paddle mecha
 
 # Or classic positional syntax
-python generate.py MakdumIbrohim game.svg fire dark laser
+python generate.py YourGithubUsername game.svg fire classic laser
 ```
 
 **Using Docker (Without installing Python):**
@@ -150,7 +150,7 @@ docker compose up
 
 # Or run directly with Docker
 docker build -t generate-brick-breaker .
-docker run --rm -v $(pwd):/output generate-brick-breaker MakdumIbrohim /output/game.svg
+docker run --rm -v $(pwd):/output generate-brick-breaker YourGithubUsername /output/game.svg
 ```
 
 ---
@@ -171,7 +171,7 @@ docker run --rm -v $(pwd):/output generate-brick-breaker MakdumIbrohim /output/g
 #### Pilihan Skin Paddle (`paddle_skin`)
 | Opsi | Preview |
 | :---: | :---: |
-| `default` | Warna primer tema aktif |
+| `classic` (default) | Warna primer tema aktif |
 | `laser` | <img src="assets/preview/sample_paddle_laser.svg" width="340" alt="paddle laser" /> |
 | `retro` | <img src="assets/preview/sample_paddle_retro.svg" width="340" alt="paddle retro" /> |
 | `mecha` | <img src="assets/preview/sample_paddle_mecha.svg" width="340" alt="paddle mecha" /> |
@@ -180,7 +180,7 @@ docker run --rm -v $(pwd):/output generate-brick-breaker MakdumIbrohim /output/g
 #### Pilihan Tema Papan (`theme`)
 | Opsi | Preview |
 | :---: | :---: |
-| `dark` (default) | <img src="assets/preview/sample_theme_dark.svg" width="340" alt="dark theme" /> |
+| `classic` (default) | <img src="assets/preview/sample_theme_classic.svg" width="340" alt="classic theme" /> |
 | `sky` | <img src="assets/preview/sample_theme_sky.svg" width="340" alt="sky theme" /> |
 | `sky-night` | <img src="assets/preview/sample_theme_sky_night.svg" width="340" alt="sky night theme" /> |
 | `synthwave` | <img src="assets/preview/sample_theme_synthwave.svg" width="340" alt="synthwave theme" /> |
@@ -225,11 +225,11 @@ jobs:
           # Opsi: classic | fire | ice | lightning | poison
           ball_skin: classic
 
-          # Opsi: dark | sky | synthwave | matrix
-          theme: dark
+          # Opsi: classic | sky | sky-night | synthwave | matrix
+          theme: classic
 
-          # Opsi: default | laser | retro | mecha | cyber
-          paddle_skin: default
+          # Opsi: classic | laser | retro | mecha | cyber
+          paddle_skin: classic
 
       - name: Commit and Push
         run: |
@@ -267,8 +267,8 @@ python generate.py --help
 Contoh pemakaian:
 ```bash
 # Menggunakan flags modern yang fleksibel
-python generate.py MakdumIbrohim --skin fire --theme sky --paddle mecha
+python generate.py YourGithubUsername --skin fire --theme sky --paddle mecha
 
 # Atau sintaks posisi klasik
-python generate.py MakdumIbrohim game.svg fire dark laser
+python generate.py YourGithubUsername game.svg fire classic laser
 ```

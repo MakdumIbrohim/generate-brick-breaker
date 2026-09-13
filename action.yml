@@ -22,13 +22,13 @@ inputs:
     required: false
     default: 'classic'
   theme:
-    description: 'Canvas board visual theme (dark, sky, sky-night, synthwave, matrix)'
+    description: 'Canvas board visual theme (classic, sky, sky-night, synthwave, matrix)'
     required: false
-    default: 'dark'
+    default: 'classic'
   paddle_skin:
-    description: 'Paddle visual skin theme (default, laser, retro, mecha, cyber)'
+    description: 'Paddle visual skin theme (classic, laser, retro, mecha, cyber)'
     required: false
-    default: 'default'
+    default: 'classic'
 runs:
   using: 'composite'
   steps:

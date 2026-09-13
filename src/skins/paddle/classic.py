@@ -1,8 +1,8 @@
 import random
 
 SKIN = {
-    "name": "default",
-    "style": "default"
+    "name": "classic",
+    "style": "classic"
 }
 
 def spawn_impact(ball_skin, hit_x, paddle_y, hit_offset):

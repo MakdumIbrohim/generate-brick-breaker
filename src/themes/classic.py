@@ -2,7 +2,7 @@ import math
 import random
 
 THEME = {
-    "name": "dark",
+    "name": "classic",
     "bg_effect": "starfield",
     "bg_color": None,                 # Transparent background (adapts natively to GitHub Dark/Light)
     "paddle_color": (88, 166, 255),

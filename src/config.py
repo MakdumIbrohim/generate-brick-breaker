@@ -14,6 +14,6 @@ INITIAL_LIVES = 3
 from src.themes import THEMES
 from src.skins import BALL_SKINS, PADDLE_SKINS
 
-DEFAULT_THEME = "dark"
+DEFAULT_THEME = "classic"
 DEFAULT_SKIN = "classic"
-DEFAULT_PADDLE_SKIN = "default"
+DEFAULT_PADDLE_SKIN = "classic"

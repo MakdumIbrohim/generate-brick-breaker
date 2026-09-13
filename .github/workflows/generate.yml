@@ -23,8 +23,8 @@ jobs:
           github_user: ${{ github.repository_owner }}
           output_path: game.svg
           ball_skin: classic
-          theme: dark
-          paddle_skin: default
+          theme: classic
+          paddle_skin: classic
 
       - name: Commit and push output
         run: |
