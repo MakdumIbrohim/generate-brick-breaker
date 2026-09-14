@@ -41,6 +41,7 @@ class BrickBreakerEngine:
         self.paddle_h = PADDLE_H
         self.paddle_y = canvas_h - 25
         self.ball_r = BALL_R
+        self.base_speed = BALL_SPEED
         self.speed = BALL_SPEED
 
         self.reset_game()
@@ -54,6 +55,11 @@ class BrickBreakerEngine:
             self.total_bricks = len(self.bricks)
             self.score = 0
             self.hit_events = {}  # (r, c) -> frame index where ball touches brick
+            self.miss_count = 0
+            self.max_misses = 1 if self.total_bricks > 120 else 2
+            # Adaptive base speed: scales smoothly so larger grids don't take forever
+            self.base_speed = max(10.5, min(14.0, 10.0 + (self.total_bricks / 80.0)))
+            self.speed = self.base_speed
         self.lives = INITIAL_LIVES
         self.state = "playing"  # playing, life_lost, game_over, win
         self.state_timer = 0
@@ -152,6 +158,11 @@ class BrickBreakerEngine:
                 self.reset_game(full_reset=False)
             return
 
+        # Progressive arcade speed-up as board clears
+        if self.total_bricks > 0 and self.state == "playing":
+            progress = self.score / self.total_bricks
+            self.speed = self.base_speed + progress * 2.5
+
         self.ball_x += self.vx
         self.ball_y += self.vy
 
@@ -174,15 +185,14 @@ class BrickBreakerEngine:
         if abs(self.vy) < 2.5:
             self.vy = -2.5 if self.vy <= 0 else 2.5
 
-        # Dynamic, organic miss trigger: independent roll on descent across varying positions
+        # Dynamic, organic miss trigger: controlled count to prevent endless game over loops
         if self.vy > 0 and 95 < self.ball_y < 145 and not self.miss_active:
-            # Balanced organic drop probability (~5-8% on descent) across various random x-positions
-            drop_prob = 0.07 if len(self.bricks) > 15 else 0.04
-            if random.random() < drop_prob:
-                self.miss_active = True
-                self.miss_side = random.choice([-1, 1])
-                # Variable narrow near-miss gap for natural human imperfection
-                self.miss_gap = random.uniform(4.0, 9.5)
+            if getattr(self, "miss_count", 0) < getattr(self, "max_misses", 1) and self.score > 20 and len(self.bricks) > 25:
+                if random.random() < 0.05:
+                    self.miss_active = True
+                    self.miss_side = random.choice([-1, 1])
+                    self.miss_gap = random.uniform(4.0, 9.5)
+                    self.miss_count += 1
 
         # Paddle tracking: stays extremely close to the ball
         if self.miss_active and self.ball_y > 150:
@@ -223,8 +233,7 @@ class BrickBreakerEngine:
                 self.vy = self.speed * math.sin(bounce_angle)
 
                 # Dynamically steer toward remaining bricks to clear board without looping forever
-                pull_prob = 0.55 if len(self.bricks) > 6 else 0.90
-                if self.bricks and random.random() < pull_prob:
+                if self.bricks:
                     target_b = random.choice(list(self.bricks.keys()))
                     tx = self.margin_x + target_b[1] * self.cell_w + self.cell_w / 2
                     ty = self.margin_y + target_b[0] * self.cell_h + self.cell_h / 2
@@ -233,10 +242,17 @@ class BrickBreakerEngine:
                     dist = math.hypot(dx, dy)
                     if dist > 0:
                         target_ang = math.atan2(dy, dx)
-                        blend_weight = 0.65 if len(self.bricks) > 6 else 0.85
-                        blend_ang = bounce_angle * (1 - blend_weight) + target_ang * blend_weight
-                        self.vx = self.speed * math.cos(blend_ang)
-                        self.vy = -abs(self.speed * math.sin(blend_ang))
+                        if len(self.bricks) <= 15:
+                            # Direct homing on lone remaining bricks in endgame
+                            self.vx = self.speed * math.cos(target_ang)
+                            self.vy = -abs(self.speed * math.sin(target_ang))
+                        else:
+                            pull_prob = 0.65 if len(self.bricks) > 30 else 0.85
+                            if random.random() < pull_prob:
+                                blend_weight = 0.60 if len(self.bricks) > 30 else 0.80
+                                blend_ang = bounce_angle * (1 - blend_weight) + target_ang * blend_weight
+                                self.vx = self.speed * math.cos(blend_ang)
+                                self.vy = -abs(self.speed * math.sin(blend_ang))
 
         # Ball falls below screen (miss)
         if self.ball_y - self.ball_r > self.canvas_h:

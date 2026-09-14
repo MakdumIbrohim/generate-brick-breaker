@@ -11,7 +11,7 @@ from .elements import (
     generate_paddle_svg,
 )
 
-def render_svg(engine, output_path="game.svg", max_frames=2000):
+def render_svg(engine, output_path="game.svg", max_frames=None):
     theme = engine.theme
     history = []
     step_idx = 0
@@ -19,7 +19,9 @@ def render_svg(engine, output_path="game.svg", max_frames=2000):
     brick_hit_map = {}
     frame_idx = 0
 
-    while len(engine.bricks) > 0 and len(history) < max_frames:
+    limit = max_frames if max_frames is not None else max(4500, engine.total_bricks * 35)
+
+    while len(engine.bricks) > 0 and len(history) < limit:
         engine.step()
 
         # Record exact frame where each brick is struck by ball
@@ -68,7 +70,7 @@ def render_svg(engine, output_path="game.svg", max_frames=2000):
         })
 
     total_frames = len(history)
-    duration_sec = round(total_frames * 0.035, 1)
+    duration_sec = round(max(45.0, min(80.0, total_frames * 0.028)), 1)
 
     ball_kf, paddle_kf = build_svg_keyframes(history, total_frames)
 
