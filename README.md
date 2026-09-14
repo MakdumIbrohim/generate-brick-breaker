@@ -114,6 +114,9 @@ jobs:
           # Options: classic | laser | retro | mecha | cyber
           paddle_skin: classic
 
+          # Optional: Custom brick HEX color (applies to classic theme only, e.g. '#00b4d8' or '#111,#222,#333,#444')
+          # brick_color: '#00b4d8'
+
       - name: Commit and Push
         run: |
           git config user.name "github-actions[bot]"
@@ -149,11 +152,11 @@ python generate.py --help
 
 Examples:
 ```bash
-# Flexible flag-based syntax
-python generate.py YourGithubUsername --skin fire --theme sky --paddle mecha
+# Flexible flag-based syntax (custom brick color for classic theme)
+python generate.py YourGithubUsername --skin fire --theme classic --paddle mecha --brick-color "#00b4d8"
 
 # Or classic positional syntax
-python generate.py YourGithubUsername game.svg fire classic laser
+python generate.py YourGithubUsername game.svg fire classic laser "#00b4d8"
 ```
 
 **Using Docker (Without installing Python):**
@@ -252,6 +255,9 @@ jobs:
           # Opsi: classic | laser | retro | mecha | cyber
           paddle_skin: classic
 
+          # Opsional: Kustom HEX warna balok (hanya untuk tema classic, contoh '#00b4d8' atau '#111,#222,#333,#444')
+          # brick_color: '#00b4d8'
+
       - name: Commit and Push
         run: |
           git config user.name "github-actions[bot]"
@@ -287,9 +293,9 @@ python generate.py --help
 
 Contoh pemakaian:
 ```bash
-# Menggunakan flags modern yang fleksibel
-python generate.py YourGithubUsername --skin fire --theme sky --paddle mecha
+# Menggunakan flags modern (kustom warna balok pada tema classic)
+python generate.py YourGithubUsername --skin fire --theme classic --paddle mecha --brick-color "#00b4d8"
 
 # Atau sintaks posisi klasik
-python generate.py YourGithubUsername game.svg fire classic laser
+python generate.py YourGithubUsername game.svg fire classic laser "#00b4d8"
 ```

@@ -31,3 +31,32 @@ THEME_UPDATERS = {
     "matrix": matrix_update,
     "sakura": sakura_update,
 }
+
+def hex_to_rgb(hex_str):
+    h = hex_str.strip().lstrip("#")
+    if len(h) == 3:
+        h = "".join(c * 2 for c in h)
+    if len(h) == 6:
+        try:
+            return (int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16))
+        except ValueError:
+            return None
+    return None
+
+def parse_custom_brick_colors(color_str):
+    if not color_str or color_str.strip() in ("", "none", "null"):
+        return None
+    parts = [p.strip() for p in color_str.split(",") if p.strip()]
+    rgbs = [hex_to_rgb(p) for p in parts]
+    rgbs = [c for c in rgbs if c is not None]
+    if len(rgbs) >= 4:
+        return rgbs[:4]
+    if len(rgbs) == 1:
+        r, g, b = rgbs[0]
+        return [
+            (max(15, int(r * 0.28)), max(15, int(g * 0.28)), max(15, int(b * 0.28))),
+            (int(r * 0.50), int(g * 0.50), int(b * 0.50)),
+            (int(r * 0.75), int(g * 0.75), int(b * 0.75)),
+            (r, g, b),
+        ]
+    return None

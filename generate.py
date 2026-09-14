@@ -31,23 +31,25 @@ def parse_arguments():
         parser.add_argument("skin", nargs="?", default=DEFAULT_SKIN, choices=list(BALL_SKINS.keys()), help="Ball elemental skin")
         parser.add_argument("theme", nargs="?", default=DEFAULT_THEME, choices=list(THEMES.keys()), help="Board theme")
         parser.add_argument("paddle", nargs="?", default=DEFAULT_PADDLE_SKIN, choices=list(PADDLE_SKINS.keys()), help="Paddle model skin")
+        parser.add_argument("brick_color", nargs="?", default=os.getenv("BRICK_COLOR", None), help="Custom brick color HEX (e.g. #00b4d8, classic theme only)")
         args = parser.parse_args()
-        return args.username, args.output, args.skin, args.theme, args.paddle
+        return args.username, args.output, args.skin, args.theme, args.paddle, args.brick_color
 
     # Flag-based modern CLI mode
     parser.add_argument("-o", "--output", default="game.svg", help="Output file path (.svg or .gif)")
     parser.add_argument("-s", "--skin", default=os.getenv("BALL_SKIN", DEFAULT_SKIN), choices=list(BALL_SKINS.keys()), help="Ball elemental skin")
     parser.add_argument("-t", "--theme", default=os.getenv("THEME", DEFAULT_THEME), choices=list(THEMES.keys()), help="Board theme")
     parser.add_argument("-p", "--paddle", default=os.getenv("PADDLE_SKIN", DEFAULT_PADDLE_SKIN), choices=list(PADDLE_SKINS.keys()), help="Paddle model skin")
+    parser.add_argument("-b", "--brick-color", default=os.getenv("BRICK_COLOR", None), help="Custom brick color HEX (e.g. #00b4d8 or 4 comma-separated HEX, classic theme only)")
     args = parser.parse_args()
-    return args.username, args.output, args.skin, args.theme, args.paddle
+    return args.username, args.output, args.skin, args.theme, args.paddle, args.brick_color
 
 def main():
-    username, output_path, skin, theme, paddle_skin = parse_arguments()
+    username, output_path, skin, theme, paddle_skin, brick_color = parse_arguments()
     token = os.getenv("GITHUB_TOKEN", None)
 
     grid = fetch_contributions(username, token)
-    engine = BrickBreakerEngine(grid, skin=skin, theme=theme, paddle_skin=paddle_skin)
+    engine = BrickBreakerEngine(grid, skin=skin, theme=theme, paddle_skin=paddle_skin, brick_color=brick_color)
 
     if output_path.lower().endswith(".svg"):
         render_svg(engine, output_path=output_path)

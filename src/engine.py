@@ -6,13 +6,14 @@ from src.config import (
     BALL_SKINS, DEFAULT_SKIN, THEMES, DEFAULT_THEME,
     PADDLE_SKINS, DEFAULT_PADDLE_SKIN
 )
+from src.themes import parse_custom_brick_colors
 from src.ambient import init_ambient_effects, update_ambient_effects
 from src.particles import (
     create_ball_particles, create_paddle_impact_particles, update_particles
 )
 
 class BrickBreakerEngine:
-    def __init__(self, grid, canvas_w=CANVAS_W, canvas_h=CANVAS_H, margin_x=MARGIN_X, margin_y=MARGIN_Y, skin=DEFAULT_SKIN, theme=DEFAULT_THEME, paddle_skin=DEFAULT_PADDLE_SKIN):
+    def __init__(self, grid, canvas_w=CANVAS_W, canvas_h=CANVAS_H, margin_x=MARGIN_X, margin_y=MARGIN_Y, skin=DEFAULT_SKIN, theme=DEFAULT_THEME, paddle_skin=DEFAULT_PADDLE_SKIN, brick_color=None):
         self.initial_grid = [row[:] for row in grid]
         self.rows = len(grid)
         self.cols = len(grid[0])
@@ -23,7 +24,11 @@ class BrickBreakerEngine:
         self.skin_name = skin if skin in BALL_SKINS else DEFAULT_SKIN
         self.skin = BALL_SKINS[self.skin_name]
         self.theme_name = theme if theme in THEMES else DEFAULT_THEME
-        self.theme = THEMES[self.theme_name]
+        self.theme = THEMES[self.theme_name].copy()
+        if brick_color and self.theme_name == "classic":
+            custom_colors = parse_custom_brick_colors(brick_color)
+            if custom_colors:
+                self.theme["brick_colors"] = custom_colors
         self.paddle_skin_name = paddle_skin if paddle_skin in PADDLE_SKINS else DEFAULT_PADDLE_SKIN
         self.paddle_skin = PADDLE_SKINS[self.paddle_skin_name]
 
