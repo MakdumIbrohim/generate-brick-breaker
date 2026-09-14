@@ -30,7 +30,7 @@ inputs:
     required: false
     default: 'classic'
   brick_color:
-    description: 'Custom brick color HEX code (e.g. #00b4d8, applies to classic theme only)'
+    description: 'Custom brick color HEX code (classic theme only: 1 HEX for auto-gradient, or 4 comma-separated HEX for levels 1-4)'
     required: false
     default: ''
 runs:

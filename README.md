@@ -60,6 +60,11 @@ Turn your GitHub contribution graph into an automated retro Brick Breaker game a
 | `matrix` | <img src="assets/preview/sample_theme_matrix.svg" width="340" alt="matrix theme" /> |
 | `sakura` | <img src="assets/preview/sample_theme_sakura.svg" width="340" alt="sakura theme" /> |
 
+#### Custom Brick Color Options (`brick_color`)
+*Applies to the `classic` board theme only.*
+- **Single HEX (Auto-Gradient)**: Pass 1 HEX color (e.g. `'#00b4d8'`) to automatically generate all 4 brightness levels.
+- **Combined Multi-HEX**: Pass 4 comma-separated HEX colors (e.g. `'#FFADAD,#FFD6A5,#FDFFB6,#9BF6FF'`) from lowest to highest level.
+
 ---
 
 ### Live Web Studio
@@ -114,7 +119,9 @@ jobs:
           # Options: classic | laser | retro | mecha | cyber
           paddle_skin: classic
 
-          # Optional: Custom brick HEX color (applies to classic theme only, e.g. '#00b4d8' or '#111,#222,#333,#444')
+          # Optional: Custom brick color (applies to classic theme only).
+          # - Single HEX (auto-gradient): '#00b4d8'
+          # - Combined Multi-HEX (levels 1-4): '#FFADAD,#FFD6A5,#FDFFB6,#9BF6FF'
           # brick_color: '#00b4d8'
 
       - name: Commit and Push
@@ -203,6 +210,11 @@ docker run --rm -v $(pwd):/output generate-brick-breaker YourGithubUsername /out
 | `matrix` | <img src="assets/preview/sample_theme_matrix.svg" width="340" alt="matrix theme" /> |
 | `sakura` | <img src="assets/preview/sample_theme_sakura.svg" width="340" alt="sakura theme" /> |
 
+#### Opsi Kustom Warna Balok (`brick_color`)
+*Hanya berlaku untuk tema papan `classic`.*
+- **Satu HEX (Otomatis Gradasi)**: Masukkan 1 kode HEX (contoh `'#00b4d8'`), sistem otomatis menghitung 4 tingkatan kecerahan.
+- **Gabungan Multi-HEX**: Masukkan 4 kode HEX dipisah koma (contoh `'#FFADAD,#FFD6A5,#FDFFB6,#9BF6FF'`) berurutan dari level terendah ke tertinggi.
+
 ---
 
 ### Studio Web Interaktif (Live Demo Online)
@@ -255,7 +267,9 @@ jobs:
           # Opsi: classic | laser | retro | mecha | cyber
           paddle_skin: classic
 
-          # Opsional: Kustom HEX warna balok (hanya untuk tema classic, contoh '#00b4d8' atau '#111,#222,#333,#444')
+          # Opsional: Kustom warna balok (hanya untuk tema classic).
+          # - Satu HEX (otomatis gradasi): '#00b4d8'
+          # - Gabungan Multi-HEX (level 1-4): '#FFADAD,#FFD6A5,#FDFFB6,#9BF6FF'
           # brick_color: '#00b4d8'
 
       - name: Commit and Push
