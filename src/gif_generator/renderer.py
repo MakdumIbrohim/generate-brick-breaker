@@ -156,9 +156,10 @@ def render_frame(engine):
 
     return img
 
-def render_gif(engine, output_path="game.gif", max_frames=3000):
+def render_gif(engine, output_path="game.gif", max_frames=None):
     frames = []
-    while len(engine.bricks) > 0 and len(frames) < max_frames:
+    limit = max_frames if max_frames is not None else max(4500, engine.total_bricks * 35)
+    while len(engine.bricks) > 0 and len(frames) < limit:
         engine.step()
         frames.append(render_frame(engine))
 
