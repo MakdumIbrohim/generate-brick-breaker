@@ -5,7 +5,7 @@
     <img src="https://img.shields.io/badge/Live_Demo-brickbreaker--live.netlify.app-ff5964.svg?style=flat-square&logo=netlify" alt="Live Demo" />
   </a>
   <a href="https://github.com/marketplace/actions/generate-brick-breaker">
-    <img src="https://img.shields.io/badge/Marketplace-v1.4.1-blue.svg?logo=github&style=flat-square" alt="Marketplace" />
+    <img src="https://img.shields.io/badge/Marketplace-v1.5.0-blue.svg?logo=github&style=flat-square" alt="Marketplace" />
   </a>
   <a href="https://github.com/MakdumIbrohim/generate-brick-breaker/actions">
     <img src="https://img.shields.io/github/actions/workflow/status/MakdumIbrohim/generate-brick-breaker/generate.yml?branch=main&style=flat-square&label=build" alt="Build Status" />
@@ -59,6 +59,11 @@ Turn your GitHub contribution graph into an automated retro Brick Breaker game a
 | `synthwave` | <img src="assets/preview/sample_theme_synthwave.svg" width="340" alt="synthwave theme" /> |
 | `matrix` | <img src="assets/preview/sample_theme_matrix.svg" width="340" alt="matrix theme" /> |
 | `sakura` | <img src="assets/preview/sample_theme_sakura.svg" width="340" alt="sakura theme" /> |
+
+#### Custom Brick Color Options (`brick_color`)
+*Applies to the `classic` board theme only.*
+- **Single HEX (Auto-Gradient)**: Pass 1 HEX color (e.g. `'#00b4d8'`) to automatically generate all 4 brightness levels.
+- **Combined Multi-HEX**: Pass 4 comma-separated HEX colors (e.g. `'#FFADAD,#FFD6A5,#FDFFB6,#9BF6FF'`) from lowest to highest level.
 
 ---
 
@@ -114,6 +119,11 @@ jobs:
           # Options: classic | laser | retro | mecha | cyber
           paddle_skin: classic
 
+          # Optional: Custom brick color (applies to classic theme only).
+          # - Single HEX (auto-gradient): '#00b4d8'
+          # - Combined Multi-HEX (levels 1-4): '#FFADAD,#FFD6A5,#FDFFB6,#9BF6FF'
+          # brick_color: '#00b4d8'
+
       - name: Commit and Push
         run: |
           git config user.name "github-actions[bot]"
@@ -149,11 +159,11 @@ python generate.py --help
 
 Examples:
 ```bash
-# Flexible flag-based syntax
-python generate.py YourGithubUsername --skin fire --theme sky --paddle mecha
+# Flexible flag-based syntax (custom brick color for classic theme)
+python generate.py YourGithubUsername --skin fire --theme classic --paddle mecha --brick-color "#00b4d8"
 
 # Or classic positional syntax
-python generate.py YourGithubUsername game.svg fire classic laser
+python generate.py YourGithubUsername game.svg fire classic laser "#00b4d8"
 ```
 
 **Using Docker (Without installing Python):**
@@ -199,6 +209,11 @@ docker run --rm -v $(pwd):/output generate-brick-breaker YourGithubUsername /out
 | `synthwave` | <img src="assets/preview/sample_theme_synthwave.svg" width="340" alt="synthwave theme" /> |
 | `matrix` | <img src="assets/preview/sample_theme_matrix.svg" width="340" alt="matrix theme" /> |
 | `sakura` | <img src="assets/preview/sample_theme_sakura.svg" width="340" alt="sakura theme" /> |
+
+#### Opsi Kustom Warna Balok (`brick_color`)
+*Hanya berlaku untuk tema papan `classic`.*
+- **Satu HEX (Otomatis Gradasi)**: Masukkan 1 kode HEX (contoh `'#00b4d8'`), sistem otomatis menghitung 4 tingkatan kecerahan.
+- **Gabungan Multi-HEX**: Masukkan 4 kode HEX dipisah koma (contoh `'#FFADAD,#FFD6A5,#FDFFB6,#9BF6FF'`) berurutan dari level terendah ke tertinggi.
 
 ---
 
@@ -252,6 +267,11 @@ jobs:
           # Opsi: classic | laser | retro | mecha | cyber
           paddle_skin: classic
 
+          # Opsional: Kustom warna balok (hanya untuk tema classic).
+          # - Satu HEX (otomatis gradasi): '#00b4d8'
+          # - Gabungan Multi-HEX (level 1-4): '#FFADAD,#FFD6A5,#FDFFB6,#9BF6FF'
+          # brick_color: '#00b4d8'
+
       - name: Commit and Push
         run: |
           git config user.name "github-actions[bot]"
@@ -287,9 +307,9 @@ python generate.py --help
 
 Contoh pemakaian:
 ```bash
-# Menggunakan flags modern yang fleksibel
-python generate.py YourGithubUsername --skin fire --theme sky --paddle mecha
+# Menggunakan flags modern (kustom warna balok pada tema classic)
+python generate.py YourGithubUsername --skin fire --theme classic --paddle mecha --brick-color "#00b4d8"
 
 # Atau sintaks posisi klasik
-python generate.py YourGithubUsername game.svg fire classic laser
+python generate.py YourGithubUsername game.svg fire classic laser "#00b4d8"
 ```

@@ -29,6 +29,10 @@ inputs:
     description: 'Paddle visual skin theme (classic, laser, retro, mecha, cyber)'
     required: false
     default: 'classic'
+  brick_color:
+    description: 'Custom brick color HEX code (classic theme only: 1 HEX for auto-gradient, or 4 comma-separated HEX for levels 1-4)'
+    required: false
+    default: ''
 runs:
   using: 'composite'
   steps:
@@ -43,4 +47,4 @@ runs:
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
-      run: python ${{ github.action_path }}/generate.py "${{ inputs.github_user }}" "${{ inputs.output_path }}" "${{ inputs.ball_skin }}" "${{ inputs.theme }}" "${{ inputs.paddle_skin }}"
+      run: python ${{ github.action_path }}/generate.py "${{ inputs.github_user }}" "${{ inputs.output_path }}" "${{ inputs.ball_skin }}" "${{ inputs.theme }}" "${{ inputs.paddle_skin }}" "${{ inputs.brick_color }}"
