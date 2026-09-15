@@ -24,7 +24,7 @@
 
 Turn your GitHub contribution graph into an automated retro Brick Breaker game animation (SVG or GIF) for your profile README.
 
-[English](#english) • [Bahasa Indonesia](#bahasa-indonesia)
+[English](#english) • [Indonesia](#bahasa-indonesia)
 
 ---
 
@@ -60,10 +60,15 @@ Turn your GitHub contribution graph into an automated retro Brick Breaker game a
 | `matrix` | <img src="assets/preview/sample_theme_matrix.svg" width="340" alt="matrix theme" /> |
 | `sakura` | <img src="assets/preview/sample_theme_sakura.svg" width="340" alt="sakura theme" /> |
 
-#### Custom Brick Color Options (`brick_color`)
+#### Custom Brick Color (`brick_color` / `--brick-color` )
 *Applies to the `classic` board theme only.*
 - **Single HEX (Auto-Gradient)**: Pass 1 HEX color (e.g. `'#00b4d8'`) to automatically generate all 4 brightness levels.
 - **Combined Multi-HEX**: Pass 4 comma-separated HEX colors (e.g. `'#FFADAD,#FFD6A5,#FDFFB6,#9BF6FF'`) from lowest to highest level.
+
+#### Ball Speed Options (`ball_speed` / `--speed`)
+- **Presets**: `slow` (8.0), `normal` (10.5), `fast` (14.0), `turbo` (18.0).
+- **Custom Value**: Any numeric speed from `4.0` to `30.0` (e.g. `12.5`).
+- *Default*: If omitted, ball speed automatically adapts to your total contribution commits so the animation finishes in 50–80s.
 
 ---
 
@@ -124,6 +129,10 @@ jobs:
           # - Combined Multi-HEX (levels 1-4): '#FFADAD,#FFD6A5,#FDFFB6,#9BF6FF'
           # brick_color: '#00b4d8'
 
+          # Optional: Custom ball speed: slow | normal | fast | turbo or number (e.g. '14.0').
+          # If omitted, speed adapts automatically based on your total commit count.
+          # ball_speed: normal
+
       - name: Commit and Push
         run: |
           git config user.name "github-actions[bot]"
@@ -159,11 +168,15 @@ python generate.py --help
 
 Examples:
 ```bash
-# Flexible flag-based syntax (custom brick color for classic theme)
-python generate.py YourGithubUsername --skin fire --theme classic --paddle mecha --brick-color "#00b4d8"
+# Flexible flag-based syntax (single HEX or 4 combined HEX, fast speed)
+python generate.py YourGithubUsername --skin fire --theme classic --paddle mecha --brick-color "#00b4d8" --speed fast
+# or with 4 combined HEX colors:
+python generate.py YourGithubUsername --skin fire --theme classic --paddle mecha --brick-color "#FFADAD,#FFD6A5,#FDFFB6,#9BF6FF" --speed fast
 
 # Or classic positional syntax
-python generate.py YourGithubUsername game.svg fire classic laser "#00b4d8"
+python generate.py YourGithubUsername game.svg fire classic laser "#00b4d8" 14.0
+# or with 4 combined HEX colors:
+python generate.py YourGithubUsername game.svg fire classic laser "#FFADAD,#FFD6A5,#FDFFB6,#9BF6FF" 14.0
 ```
 
 **Using Docker (Without installing Python):**
@@ -171,9 +184,14 @@ python generate.py YourGithubUsername game.svg fire classic laser "#00b4d8"
 # Run with Docker Compose (outputs to current folder)
 docker compose up
 
-# Or run directly with Docker
+# Build Docker image
 docker build -t generate-brick-breaker .
-docker run --rm -v $(pwd):/output generate-brick-breaker YourGithubUsername /output/game.svg
+
+# Run directly with flags (supports all skins, themes, custom colors, and speed)
+docker run --rm -v $(pwd):/output generate-brick-breaker YourGithubUsername -o /output/game.svg --skin fire --theme classic --paddle mecha --brick-color "#00b4d8" --speed fast
+
+# Optional: pass GITHUB_TOKEN for real-time GraphQL API
+docker run --rm -e GITHUB_TOKEN="ghp_xxx" -v $(pwd):/output generate-brick-breaker YourGithubUsername -o /output/game.svg
 ```
 
 ---
@@ -214,6 +232,11 @@ docker run --rm -v $(pwd):/output generate-brick-breaker YourGithubUsername /out
 *Hanya berlaku untuk tema papan `classic`.*
 - **Satu HEX (Otomatis Gradasi)**: Masukkan 1 kode HEX (contoh `'#00b4d8'`), sistem otomatis menghitung 4 tingkatan kecerahan.
 - **Gabungan Multi-HEX**: Masukkan 4 kode HEX dipisah koma (contoh `'#FFADAD,#FFD6A5,#FDFFB6,#9BF6FF'`) berurutan dari level terendah ke tertinggi.
+
+#### Opsi Kecepatan Bola (`ball_speed` / `--speed`)
+- **Preset**: `slow` (8.0), `normal` (10.5), `fast` (14.0), `turbo` (18.0).
+- **Nilai Kustom**: Angka kecepatan bebas dari `4.0` hingga `30.0` (contoh `12.5`).
+- *Default*: Jika tidak diisi, kecepatan bola otomatis menyesuaikan dengan banyaknya kontribusi commit agar durasi animasi tetap ideal (50–80 detik).
 
 ---
 
@@ -272,6 +295,10 @@ jobs:
           # - Gabungan Multi-HEX (level 1-4): '#FFADAD,#FFD6A5,#FDFFB6,#9BF6FF'
           # brick_color: '#00b4d8'
 
+          # Opsional: Kustom kecepatan bola: slow | normal | fast | turbo atau angka (contoh '14.0').
+          # Jika tidak diisi, kecepatan bola otomatis menyesuaikan dengan banyaknya commit Anda.
+          # ball_speed: normal
+
       - name: Commit and Push
         run: |
           git config user.name "github-actions[bot]"
@@ -307,9 +334,28 @@ python generate.py --help
 
 Contoh pemakaian:
 ```bash
-# Menggunakan flags modern (kustom warna balok pada tema classic)
-python generate.py YourGithubUsername --skin fire --theme classic --paddle mecha --brick-color "#00b4d8"
+# Menggunakan flags modern (satu HEX atau gabungan 4 HEX, kecepatan bola)
+python generate.py YourGithubUsername --skin fire --theme classic --paddle mecha --brick-color "#00b4d8" --speed fast
+# atau dengan gabungan 4 HEX:
+python generate.py YourGithubUsername --skin fire --theme classic --paddle mecha --brick-color "#FFADAD,#FFD6A5,#FDFFB6,#9BF6FF" --speed fast
 
 # Atau sintaks posisi klasik
-python generate.py YourGithubUsername game.svg fire classic laser "#00b4d8"
+python generate.py YourGithubUsername game.svg fire classic laser "#00b4d8" 14.0
+# atau dengan gabungan 4 HEX:
+python generate.py YourGithubUsername game.svg fire classic laser "#FFADAD,#FFD6A5,#FDFFB6,#9BF6FF" 14.0
+```
+
+**Menggunakan Docker (Tanpa perlu instalasi Python):**
+```bash
+# Jalankan dengan Docker Compose (output ke folder saat ini)
+docker compose up
+
+# Build Docker image
+docker build -t generate-brick-breaker .
+
+# Jalankan langsung dengan flags (mendukung semua skin, tema, warna kustom, dan kecepatan)
+docker run --rm -v $(pwd):/output generate-brick-breaker YourGithubUsername -o /output/game.svg --skin fire --theme classic --paddle mecha --brick-color "#00b4d8" --speed fast
+
+# Opsional: sertakan GITHUB_TOKEN untuk API GraphQL real-time
+docker run --rm -e GITHUB_TOKEN="ghp_xxx" -v $(pwd):/output generate-brick-breaker YourGithubUsername -o /output/game.svg
 ```
