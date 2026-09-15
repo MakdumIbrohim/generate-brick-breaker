@@ -13,7 +13,7 @@ from src.particles import (
 )
 
 class BrickBreakerEngine:
-    def __init__(self, grid, canvas_w=CANVAS_W, canvas_h=CANVAS_H, margin_x=MARGIN_X, margin_y=MARGIN_Y, skin=DEFAULT_SKIN, theme=DEFAULT_THEME, paddle_skin=DEFAULT_PADDLE_SKIN, brick_color=None):
+    def __init__(self, grid, canvas_w=CANVAS_W, canvas_h=CANVAS_H, margin_x=MARGIN_X, margin_y=MARGIN_Y, skin=DEFAULT_SKIN, theme=DEFAULT_THEME, paddle_skin=DEFAULT_PADDLE_SKIN, brick_color=None, speed=None):
         self.initial_grid = [row[:] for row in grid]
         self.rows = len(grid)
         self.cols = len(grid[0])
@@ -31,6 +31,7 @@ class BrickBreakerEngine:
                 self.theme["brick_colors"] = custom_colors
         self.paddle_skin_name = paddle_skin if paddle_skin in PADDLE_SKINS else DEFAULT_PADDLE_SKIN
         self.paddle_skin = PADDLE_SKINS[self.paddle_skin_name]
+        self.custom_speed = speed
 
         # Scale cell width dynamically to fit all weeks from Jan 1
         available_w = canvas_w - 2 * margin_x
@@ -46,6 +47,25 @@ class BrickBreakerEngine:
 
         self.reset_game()
 
+    def _parse_speed(self, val):
+        if val is None or val == "":
+            return max(10.5, min(14.0, 10.0 + (self.total_bricks / 80.0)))
+        if isinstance(val, (int, float)):
+            return max(4.0, min(30.0, float(val)))
+        s = str(val).strip().lower()
+        presets = {
+            "slow": 8.0,
+            "normal": 10.5,
+            "fast": 14.0,
+            "turbo": 18.0,
+        }
+        if s in presets:
+            return presets[s]
+        try:
+            return max(4.0, min(30.0, float(s)))
+        except ValueError:
+            return max(10.5, min(14.0, 10.0 + (self.total_bricks / 80.0)))
+
     def reset_game(self, full_reset=True):
         if full_reset:
             # Authentic GitHub contribution matrix: only days with commits are active bricks
@@ -57,8 +77,11 @@ class BrickBreakerEngine:
             self.hit_events = {}  # (r, c) -> frame index where ball touches brick
             self.miss_count = 0
             self.max_misses = 1 if self.total_bricks > 120 else 2
-            # Adaptive base speed: scales smoothly so larger grids don't take forever
-            self.base_speed = max(10.5, min(14.0, 10.0 + (self.total_bricks / 80.0)))
+            # Adaptive base speed: scales smoothly so larger grids don't take forever, or custom speed if provided
+            if self.custom_speed is not None and str(self.custom_speed).strip() != "":
+                self.base_speed = self._parse_speed(self.custom_speed)
+            else:
+                self.base_speed = max(10.5, min(14.0, 10.0 + (self.total_bricks / 80.0)))
             self.speed = self.base_speed
         self.lives = INITIAL_LIVES
         self.state = "playing"  # playing, life_lost, game_over, win

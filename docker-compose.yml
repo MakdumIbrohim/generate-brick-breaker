@@ -3,4 +3,11 @@ services:
     build: .
     volumes:
       - ./:/output
-    command: ["YourGithubUsername", "/output/game.svg", "classic", "classic", "classic"]
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+      - BALL_SKIN=${BALL_SKIN:-classic}
+      - THEME=${THEME:-classic}
+      - PADDLE_SKIN=${PADDLE_SKIN:-classic}
+      - BRICK_COLOR=${BRICK_COLOR:-}
+      - BALL_SPEED=${BALL_SPEED:-}
+    command: ["${GITHUB_USER:-MakdumIbrohim}", "-o", "/output/game.svg"]
