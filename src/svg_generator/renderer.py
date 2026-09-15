@@ -70,7 +70,7 @@ def render_svg(engine, output_path="game.svg", max_frames=None):
         })
 
     total_frames = len(history)
-    duration_sec = round(max(45.0, min(80.0, total_frames * 0.028)), 1)
+    duration_sec = round(total_frames * 0.038, 1)
 
     ball_kf, paddle_kf = build_svg_keyframes(history, total_frames)
 
