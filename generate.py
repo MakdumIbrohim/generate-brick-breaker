@@ -1,5 +1,8 @@
 import os
 import sys
+import re
+import json
+import urllib.request
 import argparse
 from src.fetcher import fetch_contributions
 from src.engine import BrickBreakerEngine
@@ -7,7 +10,7 @@ from src.gif_generator import render_gif
 from src.svg_generator import render_svg
 from src.config import (
     DEFAULT_SKIN, DEFAULT_THEME, DEFAULT_PADDLE_SKIN,
-    BALL_SKINS, PADDLE_SKINS, THEMES
+    BALL_SKINS, PADDLE_SKINS, THEMES, APP_VERSION
 )
 
 def parse_arguments():
@@ -32,7 +35,7 @@ def parse_arguments():
         parser.add_argument("theme", nargs="?", default=DEFAULT_THEME, choices=list(THEMES.keys()), help="Board theme")
         parser.add_argument("paddle", nargs="?", default=DEFAULT_PADDLE_SKIN, choices=list(PADDLE_SKINS.keys()), help="Paddle model skin")
         parser.add_argument("brick_color", nargs="?", default=os.getenv("BRICK_COLOR", None), help="Custom brick color HEX (1 HEX or 4 comma-separated HEX for levels 1-4, classic theme only)")
-        parser.add_argument("speed", nargs="?", default=os.getenv("BALL_SPEED", None), help="Custom ball speed (slow, normal, fast, turbo, or number 4-30. Default: auto adaptif sesuai commit)")
+        parser.add_argument("speed", nargs="?", default=os.getenv("BALL_SPEED", None), help="Custom ball speed (slow, normal, fast, turbo, or number 4-30. Default: auto adaptive by commit count)")
         args = parser.parse_args()
         return args.username, args.output, args.skin, args.theme, args.paddle, args.brick_color, args.speed
 
@@ -42,13 +45,38 @@ def parse_arguments():
     parser.add_argument("-t", "--theme", default=os.getenv("THEME", DEFAULT_THEME), choices=list(THEMES.keys()), help="Board theme")
     parser.add_argument("-p", "--paddle", default=os.getenv("PADDLE_SKIN", DEFAULT_PADDLE_SKIN), choices=list(PADDLE_SKINS.keys()), help="Paddle model skin")
     parser.add_argument("-b", "--brick-color", default=os.getenv("BRICK_COLOR", None), help="Custom brick color HEX (1 HEX or 4 comma-separated HEX for levels 1-4, classic theme only)")
-    parser.add_argument("--speed", default=os.getenv("BALL_SPEED", None), help="Custom ball speed: slow | normal | fast | turbo, or number 4-30 (default: auto menyesuaikan jumlah commit)")
+    parser.add_argument("--speed", default=os.getenv("BALL_SPEED", None), help="Custom ball speed: slow | normal | fast | turbo, or number 4-30 (default: auto adaptive by commit count)")
     args = parser.parse_args()
     return args.username, args.output, args.skin, args.theme, args.paddle, args.brick_color, args.speed
+
+def check_for_updates(token=None):
+    if os.getenv("GITHUB_ACTIONS") != "true":
+        return
+    url = "https://api.github.com/repos/MakdumIbrohim/generate-brick-breaker/releases/latest"
+    headers = {"User-Agent": "generate-brick-breaker"}
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    req = urllib.request.Request(url, headers=headers)
+    try:
+        with urllib.request.urlopen(req, timeout=3) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            latest_tag = data.get("tag_name", "").strip()
+            title = data.get("name", "").strip() or latest_tag
+
+            def to_tuple(v):
+                m = re.findall(r"\d+", v)
+                return tuple(map(int, m)) if m else (0,)
+
+            if to_tuple(latest_tag) > to_tuple(APP_VERSION):
+                print(f"::notice title=Update Available ({latest_tag})::A new version {latest_tag} is available: {title}. See https://github.com/MakdumIbrohim/generate-brick-breaker/releases/latest")
+    except Exception:
+        pass
 
 def main():
     username, output_path, skin, theme, paddle_skin, brick_color, speed = parse_arguments()
     token = os.getenv("GITHUB_TOKEN", None)
+
+    check_for_updates(token)
 
     grid = fetch_contributions(username, token)
     engine = BrickBreakerEngine(grid, skin=skin, theme=theme, paddle_skin=paddle_skin, brick_color=brick_color, speed=speed)
