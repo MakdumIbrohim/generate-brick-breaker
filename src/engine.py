@@ -48,23 +48,21 @@ class BrickBreakerEngine:
         self.reset_game()
 
     def _parse_speed(self, val):
-        if val is None or val == "":
-            return max(10.5, min(14.0, 10.0 + (self.total_bricks / 80.0)))
-        if isinstance(val, (int, float)):
-            return max(4.0, min(30.0, float(val)))
-        s = str(val).strip().lower()
         presets = {
-            "slow": 8.0,
-            "normal": 10.5,
-            "fast": 14.0,
-            "turbo": 18.0,
+            "slow": 4.0,
+            "normal": 6.5,
+            "fast": 9.0,
+            "turbo": 12.0,
         }
+        if val is None or str(val).strip() in ("", "auto", "normal"):
+            return presets["normal"]
+        s = str(val).strip().lower()
         if s in presets:
             return presets[s]
         try:
-            return max(4.0, min(30.0, float(s)))
+            return max(2.5, min(20.0, float(s)))
         except ValueError:
-            return max(10.5, min(14.0, 10.0 + (self.total_bricks / 80.0)))
+            return presets["normal"]
 
     def reset_game(self, full_reset=True):
         if full_reset:
@@ -77,11 +75,10 @@ class BrickBreakerEngine:
             self.hit_events = {}  # (r, c) -> frame index where ball touches brick
             self.miss_count = 0
             self.max_misses = 1 if self.total_bricks > 120 else 2
-            # Adaptive base speed: scales smoothly so larger grids don't take forever, or custom speed if provided
-            if self.custom_speed is not None and str(self.custom_speed).strip() != "":
+            if self.custom_speed is not None and str(self.custom_speed).strip() not in ("", "auto"):
                 self.base_speed = self._parse_speed(self.custom_speed)
             else:
-                self.base_speed = max(10.5, min(14.0, 10.0 + (self.total_bricks / 80.0)))
+                self.base_speed = 6.5
             self.speed = self.base_speed
         self.lives = INITIAL_LIVES
         self.state = "playing"  # playing, life_lost, game_over, win
@@ -181,10 +178,10 @@ class BrickBreakerEngine:
                 self.reset_game(full_reset=False)
             return
 
-        # Progressive arcade speed-up as board clears
+        # Subtle gentle speed-up as board clears
         if self.total_bricks > 0 and self.state == "playing":
             progress = self.score / self.total_bricks
-            self.speed = self.base_speed + progress * 2.5
+            self.speed = self.base_speed + progress * 0.8
 
         self.ball_x += self.vx
         self.ball_y += self.vy

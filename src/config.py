@@ -7,7 +7,7 @@ MARGIN_Y = 28
 # Gameplay & Physics Configuration
 PADDLE_H = 8
 BALL_R = 4
-BALL_SPEED = 10.5
+BALL_SPEED = 6.5
 INITIAL_LIVES = 3
 
 # Modular themes and skins imported from their respective packages
@@ -17,4 +17,4 @@ from src.skins import BALL_SKINS, PADDLE_SKINS
 DEFAULT_THEME = "classic"
 DEFAULT_SKIN = "classic"
 DEFAULT_PADDLE_SKIN = "classic"
-APP_VERSION = "v1.6.0"
+APP_VERSION = "v1.6.1"

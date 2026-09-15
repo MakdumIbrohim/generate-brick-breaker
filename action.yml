@@ -34,7 +34,7 @@ inputs:
     required: false
     default: ''
   ball_speed:
-    description: 'Custom ball speed (slow, normal, fast, turbo, or number 4-30). If omitted, automatically adapts to total commit count.'
+    description: 'Custom ball speed (slow, normal, fast, turbo, or number 2.5-20, default: normal)'
     required: false
     default: ''
 runs:
