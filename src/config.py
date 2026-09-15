@@ -17,3 +17,4 @@ from src.skins import BALL_SKINS, PADDLE_SKINS
 DEFAULT_THEME = "classic"
 DEFAULT_SKIN = "classic"
 DEFAULT_PADDLE_SKIN = "classic"
+APP_VERSION = "v1.6.0"
