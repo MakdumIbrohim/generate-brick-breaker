@@ -5,7 +5,7 @@
     <img src="https://img.shields.io/badge/Live_Demo-brickbreaker--live.netlify.app-ff5964.svg?style=flat-square&logo=netlify" alt="Live Demo" />
   </a>
   <a href="https://github.com/marketplace/actions/generate-brick-breaker">
-    <img src="https://img.shields.io/badge/Marketplace-v1.6.0-blue.svg?logo=github&style=flat-square" alt="Marketplace" />
+    <img src="https://img.shields.io/badge/Marketplace-v1.6.1-blue.svg?logo=github&style=flat-square" alt="Marketplace" />
   </a>
   <a href="https://github.com/MakdumIbrohim/generate-brick-breaker/actions">
     <img src="https://img.shields.io/github/actions/workflow/status/MakdumIbrohim/generate-brick-breaker/generate.yml?branch=main&style=flat-square&label=build" alt="Build Status" />
@@ -66,9 +66,9 @@ Turn your GitHub contribution graph into an automated retro Brick Breaker game a
 - **Combined Multi-HEX**: Pass 4 comma-separated HEX colors (e.g. `'#FFADAD,#FFD6A5,#FDFFB6,#9BF6FF'`) from lowest to highest level.
 
 #### Ball Speed Options (`ball_speed` / `--speed`)
-- **Presets**: `slow` (8.0), `normal` (10.5), `fast` (14.0), `turbo` (18.0).
-- **Custom Value**: Any numeric speed from `4.0` to `30.0` (e.g. `12.5`).
-- *Default*: If omitted, ball speed automatically adapts to your total contribution commits so the animation finishes in 50–80s.
+- **Presets**: `slow` (4.0), `normal` (6.5), `fast` (9.0), `turbo` (12.0).
+- **Custom Value**: Any numeric speed from `2.5` to `20.0` (e.g. `6.0`).
+- *Default*: `normal` (6.5) — balanced classic arcade speed.
 
 ---
 
@@ -129,8 +129,7 @@ jobs:
           # - Combined Multi-HEX (levels 1-4): '#FFADAD,#FFD6A5,#FDFFB6,#9BF6FF'
           # brick_color: '#00b4d8'
 
-          # Optional: Custom ball speed: slow | normal | fast | turbo or number (e.g. '14.0').
-          # If omitted, speed adapts automatically based on your total commit count.
+          # Optional: Custom ball speed: slow | normal | fast | turbo or number (e.g. '6.5', default: normal).
           # ball_speed: normal
 
       - name: Commit and Push
@@ -234,9 +233,9 @@ docker run --rm -e GITHUB_TOKEN="ghp_xxx" -v $(pwd):/output generate-brick-break
 - **Gabungan Multi-HEX**: Masukkan 4 kode HEX dipisah koma (contoh `'#FFADAD,#FFD6A5,#FDFFB6,#9BF6FF'`) berurutan dari level terendah ke tertinggi.
 
 #### Opsi Kecepatan Bola (`ball_speed` / `--speed`)
-- **Preset**: `slow` (8.0), `normal` (10.5), `fast` (14.0), `turbo` (18.0).
-- **Nilai Kustom**: Angka kecepatan bebas dari `4.0` hingga `30.0` (contoh `12.5`).
-- *Default*: Jika tidak diisi, kecepatan bola otomatis menyesuaikan dengan banyaknya kontribusi commit agar durasi animasi tetap ideal (50–80 detik).
+- **Preset**: `slow` (4.0), `normal` (6.5), `fast` (9.0), `turbo` (12.0).
+- **Nilai Kustom**: Angka kecepatan bebas dari `2.5` hingga `20.0` (contoh `6.0`).
+- *Default*: `normal` (6.5) — kecepatan santai retro arcade yang nyaman dilihat.
 
 ---
 
@@ -295,8 +294,7 @@ jobs:
           # - Gabungan Multi-HEX (level 1-4): '#FFADAD,#FFD6A5,#FDFFB6,#9BF6FF'
           # brick_color: '#00b4d8'
 
-          # Opsional: Kustom kecepatan bola: slow | normal | fast | turbo atau angka (contoh '14.0').
-          # Jika tidak diisi, kecepatan bola otomatis menyesuaikan dengan banyaknya commit Anda.
+          # Opsional: Kustom kecepatan bola: slow | normal | fast | turbo atau angka (contoh '6.5', default: normal).
           # ball_speed: normal
 
       - name: Commit and Push
